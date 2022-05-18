@@ -42,8 +42,19 @@ const getProfile = asyncHandler(async (req, res) => {
 //@REQUEST GET
 const getAllProfiles = asyncHandler(async (req, res) => {
   const profiles = await Profile.find({});
-
   res.status(200).json(profiles);
+});
+//Delete Profile
+//@REQUEST Delete
+const deleteProfile = asyncHandler(async (req, res) => {
+  const profile = await Profile.findById(req.params.id);
+  if (!profile) {
+    res.status(400);
+    throw new Error("Profile not found");
+  }
+
+  await profile.remove();
+  res.status(200).json({ message: "User has been Deleted" });
 });
 
 module.exports = {
@@ -51,4 +62,5 @@ module.exports = {
   editProfile,
   getProfile,
   getAllProfiles,
+  deleteProfile,
 };
