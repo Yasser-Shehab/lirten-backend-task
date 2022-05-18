@@ -38,6 +38,14 @@ const getProfile = asyncHandler(async (req, res) => {
   throw new Error("Profile ID format Error");
 });
 
+//Get All Profiles
+//@REQUEST GET
+const getAllProfiles = asyncHandler(async (req, res) => {
+  const profiles = await Profile.find({});
+
+  res.status(200).json(profiles);
+});
+
 module.exports = {
   createProfile,
   editProfile,
