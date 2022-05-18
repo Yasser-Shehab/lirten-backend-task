@@ -21,6 +21,23 @@ const editProfile = asyncHandler(async (req, res) => {
   res.status(200).json(updatedProfile);
 });
 
+//Get Single Profile
+//@REQUEST GET
+const getProfile = asyncHandler(async (req, res) => {
+  //Validates the Id params before the Query
+  if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    const profile = await Profile.findById(req.params.id);
+    if (!profile) {
+      res.status(400);
+      throw new Error("Profile not found");
+    } else {
+      res.status(200).json(profile);
+    }
+  }
+  res.status(400);
+  throw new Error("Profile ID format Error");
+});
+
 module.exports = {
   createProfile,
   editProfile,
