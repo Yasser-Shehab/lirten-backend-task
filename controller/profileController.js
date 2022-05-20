@@ -4,8 +4,15 @@ const asyncHandler = require("express-async-handler");
 //Create Profile
 //@REQUEST POST
 const createProfile = asyncHandler(async (req, res) => {
-  const profile = await Profile.create(req.body);
-  res.send(profile);
+  try {
+    const profile = await Profile.create(req.body);
+    res.send(profile);
+  } catch (error) {
+    if (error.message.includes("E11000")) {
+      return res.status(500).send("This Email Already Used");
+    }
+    res.status(401).send(error.message);
+  }
 });
 //Edit Profile
 //@REQUEST PUT
